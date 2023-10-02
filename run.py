@@ -119,7 +119,7 @@ def GetTradeInformation(update: Update, trade: dict, balance: float) -> None:
     """
 
     # calculates the stop loss in pips
-    if(trade['Symbol'] == 'XAUUSD'):
+    if(trade['Symbol'] == 'UK100'):
         multiplier = 0.1
 
     elif(trade['Symbol'] == 'XAGUSD'):
@@ -129,7 +129,7 @@ def GetTradeInformation(update: Update, trade: dict, balance: float) -> None:
         multiplier = 0.01
 
     else:
-        multiplier = 0.001
+        multiplier = 0.0001
 
     # calculates the stop loss in pips
     stopLossPips = abs(round((trade['StopLoss'] - trade['Entry']) / multiplier))
