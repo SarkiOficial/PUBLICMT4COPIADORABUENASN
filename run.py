@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 CALCULATE, TRADE, DECISION = range(3)
 
 # allowed FX symbols
-SYMBOLS = ['UK100','UK100 cash','USTEC','AUDCAD', 'AUDCHF', 'AUDJPY', 'AUDNZD', 'AUDUSD', 'CADCHF', 'CADJPY', 'CHFJPY', 'EURAUD', 'EURCAD', 'EURCHF', 'EURGBP', 'EURJPY', 'EURNZD', 'EURUSD', 'GBPAUD', 'GBPCAD', 'GBPCHF', 'GBPJPY', 'GBPNZD', 'GBPUSD', 'NOW', 'NZDCAD', 'NZDCHF', 'NZDJPY', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY', 'XAGUSD', 'XAUUSD']
+SYMBOLS = ['UK100','USTEC','AUDCAD', 'AUDCHF', 'AUDJPY', 'AUDNZD', 'AUDUSD', 'CADCHF', 'CADJPY', 'CHFJPY', 'EURAUD', 'EURCAD', 'EURCHF', 'EURGBP', 'EURJPY', 'EURNZD', 'EURUSD', 'GBPAUD', 'GBPCAD', 'GBPCHF', 'GBPJPY', 'GBPNZD', 'GBPUSD', 'NOW', 'NZDCAD', 'NZDCHF', 'NZDJPY', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY', 'XAGUSD', 'XAUUSD']
 
 # RISK FACTOR
 RISK_FACTOR = float(os.environ.get("RISK_FACTOR"))
@@ -119,14 +119,14 @@ def GetTradeInformation(update: Update, trade: dict, balance: float) -> None:
     """
 
     # calculates the stop loss in pips
-    if(trade['Symbol'] == 'UK100.cash'):
-        multiplier = 1
+    if(trade['Symbol'] == 'XAUUSD'):
+        multiplier = 0.1
 
     elif(trade['Symbol'] == 'XAGUSD'):
         multiplier = 0.001
 
     elif(str(trade['Entry']).index('.') >= 2):
-        multiplier = 1
+        multiplier = 0.01
 
     else:
         multiplier = 0.0001
@@ -135,7 +135,7 @@ def GetTradeInformation(update: Update, trade: dict, balance: float) -> None:
     stopLossPips = abs(round((trade['StopLoss'] - trade['Entry']) / multiplier))
 
     # calculates the position size using stop loss and RISK FACTOR
-    trade['PositionSize'] = 1
+    trade['PositionSize'] = math.floor(((balance * trade['RiskFactor']) / stopLossPips) / 10 * 100) / 100
 
     # calculates the take profit(s) in pips
     takeProfitPips = []
