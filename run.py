@@ -129,7 +129,7 @@ def GetTradeInformation(update: Update, trade: dict, balance: float) -> None:
         multiplier = 0.01
 
     else:
-        multiplier = 0.0001
+        multiplier = 0.001
 
     # calculates the stop loss in pips
     stopLossPips = abs(round((trade['StopLoss'] - trade['Entry']) / multiplier))
